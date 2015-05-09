@@ -97,19 +97,19 @@ J = J + (lambda / (2 * m)) * (sum(sum(theta1_tmp .^ 2)) + ...
 for t = 1:m
     % forward propagation
     % see above...
-    a_1 = a1(i, :)';
-    a_2 = a2(i, :)';
-    a_3 = a3(i, :)';
-    y_i = Y(i, :)';
-    z_2 = [1 z2(i, :)]';
+    a_1 = a1(i, :);
+    a_2 = a2(i, :);
+    a_3 = a3(i, :);
+    y_i = Y(i, :);
+    z_2 = z2(i, :);
 
     % backward propagation
-    delta3 = a_3 - y_i;
-    delta2 = Theta2' * delta3 .* sigmoidGradient(z_2);
+    delta3 = a_3(i, :) - Y(i, :);
+    delta2 = Theta2' * delta3 .* sigmoidGradient(z2(i, :));
     delta2 = delta2(2:end);
     
-    Theta1_grad = Theta1_grad + delta2 * a_1';
-    Theta2_grad = Theta2_grad + delta3 * a_2';
+    Theta1_grad = Theta1_grad + delta2 * a1(i, :)';
+    Theta2_grad = Theta2_grad + delta3 * a2(i, :);
 end
 
 Theta1_grad = (1 / m) * Theta1_grad;
