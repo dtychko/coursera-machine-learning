@@ -188,6 +188,18 @@ options = optimset('MaxIter', 50);
 %  You should also try different values of lambda
 lambda = 1;
 
+%XX = zeros(100, 400);
+%yy = zeros(100, 1);
+
+%for i = 1:10
+%    for j = 1:10
+%        to_row = (i - 1) * 10 + j;
+%        from_row = (i - 1) * 500 + j;
+%        XX(to_row, :) = X(from_row, :);
+%        yy(to_row) = y(from_row);
+%    end
+%end
+
 % Create "short hand" for the cost function to be minimized
 costFunction = @(p) nnCostFunction(p, ...
                                    input_layer_size, ...

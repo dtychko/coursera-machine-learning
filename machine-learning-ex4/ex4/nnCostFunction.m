@@ -96,15 +96,22 @@ J = J + (lambda / (2 * m)) * (sum(sum(theta1_tmp .^ 2)) + ...
 
 for t = 1:m
     % forward propagation
-    % see above...
-    a_1 = a1(i, :)';
-    a_2 = a2(i, :)';
-    a_3 = a3(i, :)';
-    y_i = Y(i, :)';
-    z_2 = [1 z2(i, :)]';
+    %a_1 = [1 X(t, :)]';
+    %z_2 = Theta1 * a_1;
+    %a_2 = sigmoid(z_2);
+    %a_2 = [1; a_2];
+    %z_3 = Theta2 * a_2;
+    %a_3 = sigmoid(z_3);
+    %h = a_3;
+    
+    a_1 = a1(t, :)';
+    a_2 = a2(t, :)';
+    a_3 = a3(t, :)';
+    y_t = Y(t, :)';
+    z_2 = [1 z2(t, :)]';
 
     % backward propagation
-    delta3 = a_3 - y_i;
+    delta3 = a_3 - y_t;
     delta2 = Theta2' * delta3 .* sigmoidGradient(z_2);
     delta2 = delta2(2:end);
     
@@ -112,8 +119,13 @@ for t = 1:m
     Theta2_grad = Theta2_grad + delta3 * a_2';
 end
 
-Theta1_grad = (1 / m) * Theta1_grad;
-Theta2_grad = (1 / m) * Theta2_grad;
+theta1_tmp = Theta1;
+theta1_tmp(:, 1) = 0; % ignoring bias term
+theta2_tmp = Theta2;
+theta2_tmp(:, 1) = 0; % ignoring bias term
+
+Theta1_grad = (1 / m) * Theta1_grad + (lambda / m) * theta1_tmp;
+Theta2_grad = (1 / m) * Theta2_grad + (lambda / m) * theta2_tmp;
 
 % -------------------------------------------------------------
 
